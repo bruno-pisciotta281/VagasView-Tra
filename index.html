@@ -4,378 +4,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-
     <title>Pesquisa de Vagas</title>
     <style>
-      /* styles.css */
-    body {
-        font-family: "Montserrat", sans-serif;
-        background-color: #fff;
-    }
-    #job-list li {
-        background-color: #fff;
-        border-radius: 15px;
-        padding: 10px;
-        margin: 10px 0;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        padding-left: 5%;
-    }
-    #job-list li:hover {
-        background-color: #BCDC04;
-        color: #ffffff;
-    }
-    #job-details {
-        display: none;
-        border-radius: 15px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        padding: 20px;
-        margin-top: 20px;
-        background-color: #fff;
-        padding: 2%;
-    }
+        /* Estilos gerais para o corpo e fontes */
+        body {
+            font-family: "Montserrat", sans-serif;
+            background-color: #fff;
+        }
 
-    #filters label,
-    #filters input {
-        margin-bottom: 10px;
-    }
-    #filters input[type="text"],
-    #filters select,
-    #filters button {
-        border: none;
-    }
-    #filters button {
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        box-shadow: none;
-        margin-right: 10px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        background-color: #BCDC04;
-        color: #ffffff;
-        font-weight: bold;
-        margin-bottom: 10px;
-        transition: background-color 0.3s, color 0.3s;
-        font-family: "Montserrat", sans-serif;
-    }
-    #filters button:hover {
-        background-color: #474747;
-        color: #fff;
-    }
-    #back-button {
-        padding: 10px 20px;
-        border: 1px solid #474747;
-        border-radius: 5px;
-        cursor: pointer;
-        text-decoration: none;
-        color: #474747;
-        box-shadow: none;
-        background-color: transparent;
-    }
-    #back-button:hover {
-        background-color: #474747;
-        color: #fff;
-        box-shadow: none;
-    }
-    #filters {
-        margin-bottom: 20px;
-    }
-    input,
-    select,
-    button {
-        margin-right: 10px;
-    }
-    #job-publication {
-        font-size: 14px;
-        margin-top: 10px;
-        color: #555;
-    }
-    #job-url,
-    #apply-button {
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        box-shadow: none;
-        margin-right: 10px;
-        border-radius: 5px;
-        text-decoration: none;
-        display: inline-block;
-        background-color: #474747;
-        color: #fff;
-        font-weight: bold;
-        margin-bottom: 10px;
-        transition: background-color 0.3s, color 0.3s;
-    }
-    #job-url:hover,
-    #apply-button:hover {
-        background-color: #BCDC04;
-        color: #474747;
-        font-weight: bold;
-    }
-    .pagination {
-        margin: 20px 0;
-        text-align: center;
-    }
-    .pagination button {
-        margin: 0 5px;
-        padding: 5px 10px;
-    }
-    .pagination button.active {
-        background-color: #BCDC04;
-        color: #fff;
-    }
+        /* Estilos para a lista de vagas */
+        #job-list li {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 10px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            padding-left: 2%;
+        }
+
+        /* Estilo para o hover na lista de vagas */
+        #job-list li:hover {
+            background-color: #BCDC04;
+            color: #ffffff;
+        }
+
+        /* Estilos para a visualização detalhada da vaga */
+        #job-details {
+            position: relative; /* Para posicionar o botão de copiar URL no canto superior direito */
+            display: none;
+            border-radius: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 2%;
+        }
+
+        /* Estilos para os filtros */
+        #filters label,
+        #filters input {
+            margin-bottom: 10px;
+        }
+
+        #filters input[type="text"],
+        #filters input[type="number"],
+        #filters select,
+        #filters button {
+            border: none;
+        }
+
+        /* Estilo para os botões de filtro */
+        #filters button {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            box-shadow: none;
+            margin-right: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            background-color: #BCDC04;
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        /* Estilo para o hover nos botões de filtro */
+        #filters button:hover {
+            background-color: #474747;
+            color: #fff;
+        }
+
+        /* Estilo para o botão "Voltar" */
+        #back-button {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            box-shadow: none;
+            margin-right: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            background-color: transparent;
+            color: #474747;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border: 1px solid #474747;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Estilo para o hover no botão "Voltar" */
+        #back-button:hover {
+            background-color: #474747;
+            color: #fff;
+            box-shadow: none;
+        }
+
+       /* Estilo para o botão "Copiar URL" */
+        #copy-url-button {
+            position: absolute;
+            top: 10px; /* Ajuste conforme necessário */
+            right: 10px; /* Ajuste conforme necessário */
+            background-color: #474747;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Estilo para o ícone dentro do botão */
+        #copy-url-button i {
+            margin-right: 5px;
+        }
+
+        #copy-url-button:hover {
+            background-color: #BCDC04;
+            color: #ffffff;
+        }
+
+
+        /* Estilos adicionais para filtros */
+        #filters {
+            margin-bottom: 20px;
+        }
+
+        input, select, button, label {
+            margin-right: 10px;
+        }
+
+        /* Estilos para a publicação da vaga */
+        #job-publication {
+            font-size: 14px;
+            margin-top: 10px;
+            color: #555;
+        }
+
+        /* Estilos para os links e botões na visualização detalhada da vaga */
+        #job-url,
+        #apply-button {
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            box-shadow: none;
+            margin-right: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            background-color: #474747;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #job-url:hover,
+        #apply-button:hover {
+            background-color: #BCDC04;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* Estilos para a paginação */
+        .pagination {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .pagination button,
+        .pagination span {
+            margin: 0 5px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .pagination button.active,
+        .pagination span.active {
+            background-color: #BCDC04;
+            color: #fff;
+        }
+
+        .pagination button:hover {
+            background-color: #BCDC04;
+            color: #fff;
+        }
+
+        /* Estilo para a mensagem de "nenhum resultado encontrado" */
+        #no-results {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            display: none;
+        }
+
+        /* Estilo para o hover do botão "Última" */
+        .last-page-button:hover {
+            background-color: #333 !important;
+            color: #fff !important;
+        }
+
     </style>
 </head>
 
 <body>
+    <!-- Filtros de pesquisa -->
     <div id="filters">
         <label for="title">Título / Área:</label>
         <input type="text" id="title" placeholder="Exemplo: Engenheiro de Processos ou Marketing">
         <label for="location">Cidade ou Estado:</label>
         <input type="text" id="location" placeholder="Exemplo: São Paulo">
+        <label for="id">ID da Vaga:</label>
+        <input type="number" id="id" placeholder="Exemplo: 18108">
         <br>
         <button onclick="filterJobs()">Pesquisar</button>
+        <button onclick="clearFilters()">Limpar</button>
     </div>
+
+    <!-- Mensagem de "nenhum resultado encontrado" -->
+    <div id="no-results">Nenhuma vaga encontrada.</div>
+
+    <!-- Lista de vagas -->
     <ul style="list-style: none; padding: 0;" id="job-list"></ul>
-    <div id="job-details" style="display: none;">
-        <h1 style="font-size: 30px;" id="job-title"></h1>
+
+    <!-- Visualização detalhada da vaga -->
+    <div id="job-details">
+        <br>
+        <h2 id="job-title"></h2>
+        <p id="job-id"></p>
         <p id="job-description"></p>
         <p id="job-location"></p>
         <p id="job-contract"></p>
         <p id="job-requirements"></p>
         <p id="job-publication"></p>
-        <a href="#" id="job-url" data-id="">Candidatar Agora</a>
+        <a target="_blank" href="#" id="job-url" data-id="">Candidatar Agora</a>
+        <button id="copy-url-button">
+            <i class="fa fa-copy"></i>
+        </button>
         <button id="back-button">Voltar</button>
     </div>
+
+
+    <!-- Controles de paginação -->
     <div class="pagination" id="pagination-controls"></div>
-    <script src="scripts.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const jobList = document.getElementById("job-list");
             const jobDetails = document.getElementById("job-details");
+            const noResults = document.getElementById("no-results");
             const paginationControls = document.getElementById("pagination-controls");
-            let data;
+            let data = [];
+            let filteredJobs = [];
             let currentPage = 1;
             const itemsPerPage = 10;
-            const maxPageButtons = 3;
-            let startPage = 1;
+            const maxPageButtons = 5;
 
+            // Função para obter o parâmetro `id` da URL
+            function getQueryParam(param) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+
+            // Função para carregar as vagas do servidor
             function loadJobs() {
                 fetch("https://tramasso.selecty.com.br/jobfeed/index.php?token=383d50ae-1cff68-5f7c-5f7c-163f244a87781")
                     .then(response => response.json())
                     .then(jobData => {
                         data = jobData;
-                        data.sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate));
+                        filteredJobs = data;
+                        data.sort((a, b) => new Date(b.publicationDate) - new Date(a.publicationDate)); // Ordena por data de publicação
                         displayJobs(data, currentPage);
                         setupPagination(data);
-                        checkForJobIdInUrl(); 
+
+                        // Verifica se há um `id` na URL e exibe os detalhes se necessário
+                        const jobId = getQueryParam("id");
+                        if (jobId) {
+                            const job = data.find(job => job.id.toString() === jobId);
+                            if (job) {
+                                showJobDetails(job);
+                            }
+                        }
                     })
                     .catch(error => {
                         console.error("Erro ao carregar vagas: " + error);
-                        alert("Erro ao carregar vagas. Por favor, tente novamente mais tarde.");
                     });
             }
 
+            // Função para exibir as vagas na página atual
             function displayJobs(jobs, page) {
                 jobList.innerHTML = "";
                 const startIndex = (page - 1) * itemsPerPage;
                 const endIndex = startIndex + itemsPerPage;
                 const jobsToShow = jobs.slice(startIndex, endIndex);
 
+                if (jobsToShow.length === 0) {
+                    noResults.style.display = "block";
+                    paginationControls.style.display = "none";
+                } else {
+                    noResults.style.display = "none";
+                    paginationControls.style.display = "block";
+                }
+
                 jobsToShow.forEach(job => {
                     const li = document.createElement("li");
                     const formattedPublicationDate = formatDate(job.publicationDate);
-                    const additionalInfo = `${job.location} | ${job.contractType}, ${formattedPublicationDate}`;
-                    li.setAttribute('data-id', job.id); 
-
+                    const additionalInfo = `PS: ${job.id} | ${job.location} | ${job.contractType} | ${formattedPublicationDate}`;
                     li.innerHTML = `<strong>${job.title}</strong><br>${additionalInfo}`;
                     li.addEventListener("click", () => showJobDetails(job));
                     jobList.appendChild(li);
                 });
             }
 
+            // Função para criar os botões de paginação
+            function createPaginationButton(text, page) {
+                const button = document.createElement("button");
+                button.innerText = text;
+                button.className = "pagination-button";
+                if (page === currentPage) {
+                    button.classList.add("active");
+                }
+                if (text === "Última") {
+                    button.classList.add("last-page-button");
+                }
+                button.addEventListener("click", () => {
+                    currentPage = page;
+                    displayJobs(filteredJobs, currentPage);
+                    setupPagination(filteredJobs);
+                });
+                return button;
+            }
+
+            // Função para configurar a paginação
             function setupPagination(jobs) {
                 paginationControls.innerHTML = "";
                 const pageCount = Math.ceil(jobs.length / itemsPerPage);
 
-                if (startPage > pageCount - maxPageButtons + 1) {
-                    startPage = Math.max(pageCount - maxPageButtons + 1, 1);
-                }
+                if (pageCount <= 1) return;
 
-                const endPage = Math.min(startPage + maxPageButtons - 1, pageCount);
-
+                // Botões "Primeira" e "Anterior"
                 if (currentPage > 1) {
-                    const prevButton = document.createElement("button");
-                    prevButton.innerHTML = "⭠";
-                    prevButton.addEventListener("click", () => {
-                        currentPage -= 1;
-                        if (currentPage < 1) currentPage = 1;
-                        if (currentPage < startPage) {
-                            startPage -= maxPageButtons;
-                            if (startPage < 1) startPage = 1;
-                        }
-                        displayJobs(jobs, currentPage);
-                        setupPagination(jobs);
-                    });
+                    const firstButton = createPaginationButton("Primeira", 1);
+                    paginationControls.appendChild(firstButton);
+
+                    const prevButton = createPaginationButton("←", currentPage - 1);
                     paginationControls.appendChild(prevButton);
                 }
 
-                if (startPage > 1) {
-                    const firstButton = document.createElement("button");
-                    firstButton.innerText = "1";
-                    firstButton.addEventListener("click", () => {
-                        currentPage = 1;
-                        startPage = 1;
-                        displayJobs(jobs, currentPage);
-                        setupPagination(jobs);
-                    });
-                    paginationControls.appendChild(firstButton);
-
-                    if (startPage > 2) {
-                        paginationControls.appendChild(document.createTextNode("..."));
-                    }
-                }
+                // Botões de número de página
+                const startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+                const endPage = Math.min(pageCount, startPage + maxPageButtons - 1);
 
                 for (let i = startPage; i <= endPage; i++) {
-                    createPageButton(i);
+                    const pageButton = createPaginationButton(i, i);
+                    paginationControls.appendChild(pageButton);
                 }
 
+                // Botões "Próxima" e "Última"
                 if (endPage < pageCount) {
-                    if (endPage < pageCount - 1) {
-                        paginationControls.appendChild(document.createTextNode("..."));
-                    }
-                    const lastButton = document.createElement("button");
-                    lastButton.innerText = pageCount;
-                    lastButton.addEventListener("click", () => {
-                        currentPage = pageCount;
-                        startPage = pageCount - maxPageButtons + 1;
-                        if (startPage < 1) startPage = 1;
-                        displayJobs(jobs, currentPage);
-                        setupPagination(jobs);
-                    });
+                    const nextButton = createPaginationButton("→", currentPage + 1);
+                    paginationControls.appendChild(nextButton);
+
+                    const lastButton = createPaginationButton("Última", pageCount);
                     paginationControls.appendChild(lastButton);
                 }
-
-                if (currentPage < pageCount) {
-                    const nextButton = document.createElement("button");
-                    nextButton.innerHTML = "⭢";
-                    nextButton.addEventListener("click", () => {
-                        currentPage += 1;
-                        if (currentPage > pageCount) currentPage = pageCount;
-                        if (currentPage > endPage) {
-                            startPage += maxPageButtons;
-                            setupPagination(jobs);
-                        } else {
-                            displayJobs(jobs, currentPage);
-                            updateActivePageButton();
-                        }
-                    });
-                    paginationControls.appendChild(nextButton);
-                }
             }
 
-            function createPageButton(pageNumber) {
-                const button = document.createElement("button");
-                button.innerText = pageNumber;
-                button.classList.add("page-button");
-                if (pageNumber === currentPage) {
-                    button.classList.add("active");
-                }
-                button.addEventListener("click", () => {
-                    currentPage = pageNumber;
-                    displayJobs(data, currentPage);
-                    updateActivePageButton();
-                });
-                paginationControls.appendChild(button);
-            }
-
-            function updateActivePageButton() {
-                const buttons = document.querySelectorAll(".page-button");
-                buttons.forEach(button => {
-                    button.classList.remove("active");
-                    if (parseInt(button.innerText) === currentPage) {
-                        button.classList.add("active");
-                    }
-                });
-            }
-
+            // Função para exibir os detalhes da vaga
             function showJobDetails(job) {
                 document.getElementById("job-title").innerText = job.title;
-                document.getElementById("job-description").innerText = job.description;
-                document.getElementById("job-location").innerText = `Localização: ${job.location}`;
-                document.getElementById("job-contract").innerText = `Tipo de Contrato: ${job.contractType}`;
-                document.getElementById("job-requirements").innerText = `Requisitos: ${job.requirements}`;
-                document.getElementById("job-publication").innerText = `Publicado em: ${formatDate(job.publicationDate)}`;
+                document.getElementById("job-id").innerHTML = `<strong>ID da Vaga:</strong> ${job.id}`;
+                document.getElementById("job-description").innerHTML = `<strong>Descrição:</strong> ${job.description}`;
+                document.getElementById("job-location").innerHTML = `<strong>Localização:</strong> ${job.location}`;
+                document.getElementById("job-contract").innerHTML = `<strong>Tipo de Contrato:</strong> ${job.contractType}`;
+                document.getElementById("job-requirements").innerHTML = `<strong>Requisitos:</strong> ${job.requirements}`;
+                document.getElementById("job-publication").innerHTML = `<strong>Publicado em:</strong> ${formatDate(job.publicationDate)}`;
                 document.getElementById("job-url").setAttribute("href", `https://tramasso.selecty.com.br/vaga/${job.id}/vaga-para-${job.title.toLowerCase().replace(/ /g, '-')}`);
-                document.getElementById("job-url").setAttribute("target", "_blank");
                 jobList.style.display = "none";
                 jobDetails.style.display = "block";
+                document.getElementById("filters").style.display = "none"; // Oculta os filtros 
+                paginationControls.style.display = "none"; // Esconde a paginação
                 history.pushState({ id: job.id }, "", `${window.location.href.split('?')[0]}?id=${job.id}`);
             }
 
-            function goBack() {
-                jobList.style.display = "block";
-                jobDetails.style.display = "none";
-                history.pushState(null, "", window.location.href.split('?')[0]);
-            }
 
+            // Função para filtrar as vagas com base nos filtros
             function filterJobs() {
                 const titleFilter = document.getElementById("title").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                 const locationFilter = document.getElementById("location").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const idFilter = document.getElementById("id").value;
 
-                const filteredJobs = data.filter(job => {
-                    const titleMatch = job.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(titleFilter);
-                    const locationMatch = job.location.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(locationFilter);
-                    return titleMatch && locationMatch;
+                filteredJobs = data.filter(job => {
+                    let titleMatch = true;
+                    let locationMatch = true;
+                    let idMatch = true;
+
+                    if (titleFilter) {
+                        titleMatch = job.title.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(titleFilter);
+                    }
+                    if (locationFilter) {
+                        locationMatch = job.location.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(locationFilter);
+                    }
+                    if (idFilter) {
+                        idMatch = job.id.toString() === idFilter;
+                    }
+
+                    return titleMatch && locationMatch && idMatch;
                 });
 
                 currentPage = 1;
-                startPage = 1;
                 displayJobs(filteredJobs, currentPage);
                 setupPagination(filteredJobs);
             }
 
+            // Função para limpar os filtros
+            function clearFilters() {
+                document.getElementById("title").value = "";
+                document.getElementById("location").value = "";
+                document.getElementById("id").value = "";
+
+                filteredJobs = data;
+                displayJobs(filteredJobs, currentPage);
+                setupPagination(filteredJobs);
+            }
+
+            // Função para copiar a URL da página para a área de transferência
+                function copyToClipboard() {
+                    const url = window.location.href;
+                    navigator.clipboard.writeText(url).then(() => {
+                        alert("URL copiada para a área de transferência!");
+                    }).catch(err => {
+                        console.error("Erro ao copiar URL: ", err);
+                    });
+                }
+
+                // Adiciona o event listener ao botão "Copiar URL"
+                document.getElementById("copy-url-button").addEventListener("click", copyToClipboard);
+
+
+            // Função para formatar a data de publicação
             function formatDate(dateString) {
                 const options = { day: 'numeric', month: 'long', year: 'numeric' };
                 return new Date(dateString).toLocaleDateString('pt-BR', options);
             }
 
-            function checkForJobIdInUrl() {
-                const params = new URLSearchParams(window.location.search);
-                const jobId = params.get("id");
-                if (jobId) {
-                    const job = data.find(job => job.id == jobId);
-                    if (job) {
-                        showJobDetails(job);
-                    } else {
-                        console.error("Vaga não encontrada");
-                    }
+            // Event listeners para os botões de filtro
+            document.getElementById("filters").addEventListener("click", function(event) {
+                if (event.target.textContent === "Pesquisar") {
+                    filterJobs();
+                } else if (event.target.textContent === "Limpar") {
+                    clearFilters();
                 }
-            }
+            });
 
-            document.getElementById("filters").addEventListener("click", filterJobs);
-            document.getElementById("back-button").addEventListener("click", goBack);
+            // Event listener para o botão "Voltar"
+            document.getElementById("back-button").addEventListener("click", function () {
+            jobList.style.display = "block";
+            jobDetails.style.display = "none";
+            document.getElementById("filters").style.display = "block"; // Mostra os filtros
+            paginationControls.style.display = "block"; // Mostra a paginação
+            history.pushState(null, "", window.location.href.split('?')[0]);
+        });
 
+            // Carrega as vagas ao carregar a página
             loadJobs();
 
+            // Configura o comportamento do botão "Voltar" do navegador
             window.onpopstate = function (event) {
-                if (event.state && event.state.id) {
-                    const job = data.find(job => job.id === event.state.id);
+            if (event.state && event.state.id) {
+                const job = data.find(job => job.id === event.state.id);
+                if (job) {
                     showJobDetails(job);
                 } else {
                     jobList.style.display = "block";
+                    document.getElementById("filters").style.display = "block"; // Mostra os filtros
                     jobDetails.style.display = "none";
+                    paginationControls.style.display = "block"; // Mostra a paginação
                 }
-            };
+            } else {
+                jobList.style.display = "block";
+                jobDetails.style.display = "none";
+                paginationControls.style.display = "block"; // Mostra a paginação
+            }
+        };
         });
     </script>
 </body>
