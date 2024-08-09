@@ -486,6 +486,14 @@
                 return new Date(dateString).toLocaleDateString('pt-BR', options);
             }
 
+            // Event listener para os filtros de pesquisa - Verificar se "Enter" foi pressionado
+            document.getElementById("filters").addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    event.preventDefault(); // Impede o comportamento padrão do Enter
+                    filterJobs(); // Chama a função de pesquisa
+                }
+            });
+
             // Event listeners para os botões de filtro
             document.getElementById("filters").addEventListener("click", function(event) {
                 if (event.target.textContent === "Pesquisar") {
