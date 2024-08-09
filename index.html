@@ -29,7 +29,7 @@
 
         /* Estilo para o hover na lista de vagas */
         #job-list li:hover {
-            background-color: #BCDC04;
+            background-color: #00A960;
             color: #ffffff;
         }
 
@@ -68,7 +68,7 @@
             border-radius: 5px;
             text-decoration: none;
             display: inline-block;
-            background-color: #BCDC04;
+            background-color: #00A960;
             color: #ffffff;
             font-weight: bold;
             margin-bottom: 10px;
@@ -132,7 +132,7 @@
         }
 
         #copy-url-button:hover {
-            background-color: #BCDC04;
+            background-color: #00A960;
             color: #ffffff;
         }
 
@@ -173,7 +173,7 @@
 
         #job-url:hover,
         #apply-button:hover {
-            background-color: #BCDC04;
+            background-color: #00A960;
             color: #ffffff;
             font-weight: bold;
         }
@@ -198,12 +198,12 @@
 
         .pagination button.active,
         .pagination span.active {
-            background-color: #BCDC04;
+            background-color: #00A960;
             color: #fff;
         }
 
         .pagination button:hover {
-            background-color: #BCDC04;
+            background-color: #00A960;
             color: #fff;
         }
 
@@ -221,6 +221,27 @@
             color: #fff !important;
         }
 
+        .clearButton{
+            padding: 10px 20px;
+            cursor: pointer;
+            box-shadow: none;
+            margin-right: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            background-color: transparent !important;
+            color: #474747 !important;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border: 1px solid #474747;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .clearButton:hover{
+            color: #00A960 !important;
+        }
+
     </style>
 </head>
 
@@ -231,11 +252,11 @@
         <input type="text" id="title" placeholder="Exemplo: Engenheiro de Processos ou Marketing">
         <label for="location">Cidade ou Estado:</label>
         <input type="text" id="location" placeholder="Exemplo: São Paulo">
-        <label for="id">ID da Vaga:</label>
+        <label for="id">Pesquisa por código:</label>
         <input type="number" id="id" placeholder="Exemplo: 18108">
         <br>
         <button onclick="filterJobs()">Pesquisar</button>
-        <button onclick="clearFilters()">Limpar</button>
+        <button class="clearButton" onclick="clearFilters()">Limpar</button>
     </div>
 
     <!-- Mensagem de "nenhum resultado encontrado" -->
@@ -285,7 +306,7 @@
 
             // Função para carregar as vagas do servidor
             function loadJobs() {
-                fetch("https://tramasso.selecty.com.br/jobfeed/index.php?token=383d50ae-1cff68-5f7c-5f7c-163f244a87781")
+                fetch("https://novotemporh.selecty.com.br/jobfeed/index.php?token=68d44a-11e5-1cff68-ad54-163f244a87781&portal=novotemporh")
                     .then(response => response.json())
                     .then(jobData => {
                         data = jobData;
@@ -326,7 +347,7 @@
                 jobsToShow.forEach(job => {
                     const li = document.createElement("li");
                     const formattedPublicationDate = formatDate(job.publicationDate);
-                    const additionalInfo = `PS: ${job.id} | ${job.location} | ${job.contractType} | ${formattedPublicationDate}`;
+                    const additionalInfo = `PS: ${job.id} - ${job.location} - ${job.contractType} - ${formattedPublicationDate}`;
                     li.innerHTML = `<strong>${job.title}</strong><br>${additionalInfo}`;
                     li.addEventListener("click", () => showJobDetails(job));
                     jobList.appendChild(li);
@@ -396,7 +417,7 @@
                 document.getElementById("job-contract").innerHTML = `<strong>Tipo de Contrato:</strong> ${job.contractType}`;
                 document.getElementById("job-requirements").innerHTML = `<strong>Requisitos:</strong> ${job.requirements}`;
                 document.getElementById("job-publication").innerHTML = `<strong>Publicado em:</strong> ${formatDate(job.publicationDate)}`;
-                document.getElementById("job-url").setAttribute("href", `https://tramasso.selecty.com.br/vaga/${job.id}/vaga-para-${job.title.toLowerCase().replace(/ /g, '-')}`);
+                document.getElementById("job-url").setAttribute("href", `https://novotemporh.selecty.com.br/vaga/${job.id}/vaga-para-${job.title.toLowerCase().replace(/ /g, '-')}`);
                 jobList.style.display = "none";
                 jobDetails.style.display = "block";
                 document.getElementById("filters").style.display = "none"; // Oculta os filtros 
